@@ -12,10 +12,11 @@ router.post('/login', (req, res) => {
         console.log('user', user);
         if(user){
             if (user?.password && await bycrypt.compare(password, user?.password)){
-                const token = jwt.sign({user_id: user.uid}, process.env.TOKEN_KEY ?? 'wpqofdjamcliveqjdmxzw', {expiresIn: '1h'});
+                const token = jwt.sign({user_id: user.uid, email: `${user.email}`, userName: `${user.userName}`}, process.env.TOKEN_KEY ?? 'wpqofdjamcliveqjdmxzw', {expiresIn: '1h'});
+                console.log(token)
                 return res.json({message: `Successful Login`,user_token: {user, token, error: {status: false, message: null, code: null}}});
             } else {
-                return res.status(400).json({message: 'Invalid credentials', user_token: {
+                return res.json({message: 'Invalid credentials', user_token: {
                     user: null,
                     token: null,
                     error: {
@@ -81,7 +82,7 @@ router.post('/register', async (req, res) => {
                     // create a JWT token for the user
             
                     const token = jwt.sign(
-                        {user_id: user.uid},
+                        {user_id: user.uid, email: `${user.email}`, userName: `${user.userName}`},
                         process.env.TOKEN_KEY ?? 'wpqofdjamcliveqjdmxzw',
                         {expiresIn: '1h'}
                     )

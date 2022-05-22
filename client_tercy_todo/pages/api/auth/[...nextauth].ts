@@ -51,6 +51,8 @@ export default NextAuth({
       async authorize(credentials, req){
         console.log(credentials);
 
+        console.log(`${process.env.SERVER_URL ?? `http://localhost:5000`}/auth/login`);
+
         const {data: login_res} = await axios.post(`${process.env.SERVER_URL ?? `http://localhost:5000`}/auth/login`, {
           email: credentials?.email,
           password: credentials?.password
@@ -58,7 +60,7 @@ export default NextAuth({
 
         const login_data: loginDataTypes = login_res;
 
-        if (login_data.user_token.user && (login_data.user_token.error.status !== false)){
+        if (login_data.user_token.user){
           return login_data;
         } else {
           throw new Error(JSON.stringify(login_data));
@@ -67,10 +69,16 @@ export default NextAuth({
     })
   ],
   callbacks: {
-    jwt: async ({ token }) => {
+    jwt: async ({ token, user, account, profile }) => {
+      if (user?.user_token) {
+        token = {...token, tercy_token: user.user_token.token}
+        user = {...user, authUser: {email: user.user_token.user?.email ?? "", uid: user.user_token.user?.uid ?? "", userName: user.user_token.user?.userName ??"", password: user.user_token.user?.password ?? ""}, id: "", user_token: {...user?.user_token}}
+      }
       return token;
     },
-    session: async ({ session, token }) => {
+    session: async ({ session, token, user }) => {
+      session = {...session, user: {...user, token: token}}
+
       return session;
     },
   },
