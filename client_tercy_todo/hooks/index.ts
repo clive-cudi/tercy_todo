@@ -5,3 +5,5 @@ export { useHasMounted } from './useHasMounted/useHasMounted';
 export { useAuth } from './useAuth/useAuth';
 
 export { useNotification } from './useNotification/useNotification';
+
+export { useHomePageTabs } from './useHomePageTabs/useHomePageTabs';

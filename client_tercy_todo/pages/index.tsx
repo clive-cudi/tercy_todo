@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css';
 import Stars from '../components/Stars';
 import { useAuth } from '../hooks';
 import { useSession } from 'next-auth/react';
-import { NavBar, NextHead, TopNav } from '../components';
+import { NavBar, NextHead, TopNav, HomePageCurrentTab } from '../components';
 
 export default function Home() {
   const auth = useAuth();
@@ -23,6 +23,7 @@ export default function Home() {
         <NavBar />
         <div className={styles.content_view}>
           <TopNav />
+          <HomePageCurrentTab />
           <Stars amount={4} />
         </div>
       </main>

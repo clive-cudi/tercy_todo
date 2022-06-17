@@ -5,3 +5,4 @@ export * from './SignupWidget';
 export * from './NextHead';
 export * from './auth/AuthGuard';
 export * from './reusable';
+export * from './views';

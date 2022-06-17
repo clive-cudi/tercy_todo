@@ -6,6 +6,7 @@ import { HiMenuAlt1 } from "react-icons/hi";
 import { AiFillStar } from "react-icons/ai";
 import { GoAlert } from "react-icons/go";
 import { FaHamburger } from "react-icons/fa"
+import { useHomePageTabs } from "../../hooks";
 
 interface NavBarProps {
     starredTasks?: []
@@ -19,6 +20,7 @@ const iconStyles: React.CSSProperties = {
 
 export function NavBar({starredTasks, urgentTasks}: NavBarProps): JSX.Element {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+    const { switchTab } = useHomePageTabs();
 
     function toggleCollapse(): void{
         if (isCollapsed == true){
@@ -36,9 +38,9 @@ export function NavBar({starredTasks, urgentTasks}: NavBarProps): JSX.Element {
                     <span onClick={():void=>{toggleCollapse()}}>{isCollapsed ? <FaHamburger /> : <HiMenuAlt1 />}</span>
                 </div>
                 <ul>
-                    <li><button><BsHouseDoor />{isCollapsed == false && <span>Home</span>}</button></li>
-                    <li><button><FiCheckCircle />{isCollapsed == false && <span>My Tasks</span>}</button></li>
-                    <li><button><FiBell />{isCollapsed == false && <span>Inbox</span>}</button></li>   
+                    <li><button onClick={():void=>{switchTab("home")}}><BsHouseDoor />{isCollapsed == false && <span>Home</span>}</button></li>
+                    <li><button onClick={():void=>{switchTab("mytasks")}}><FiCheckCircle />{isCollapsed == false && <span>My Tasks</span>}</button></li>
+                    <li><button onClick={():void=>{switchTab("inbox")}}><FiBell />{isCollapsed == false && <span>Inbox</span>}</button></li>   
                 </ul>
                 <span className={styles.nav_mini_title}>{isCollapsed == false ? <span className={styles.nav_mini_title_txt}>Starred Tasks</span> : ''}<AiFillStar /></span>
                 <ul>
