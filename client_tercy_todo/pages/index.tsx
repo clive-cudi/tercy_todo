@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css';
 import Stars from '../components/Stars';
 import { useAuth } from '../hooks';
 import { useSession } from 'next-auth/react';
-import { NavBar, NextHead } from '../components';
+import { NavBar, NextHead, TopNav } from '../components';
 
 export default function Home() {
   const auth = useAuth();
@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(()=>{
     console.log(auth)
     console.log(session);
-  }, [])
+  }, [auth, session])
 
   return (
     <div className={styles.app}>
@@ -22,6 +22,7 @@ export default function Home() {
       <main className={styles.content}>
         <NavBar />
         <div className={styles.content_view}>
+          <TopNav />
           <Stars amount={4} />
         </div>
       </main>

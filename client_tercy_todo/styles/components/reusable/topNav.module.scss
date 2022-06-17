@@ -1,0 +1,93 @@
+.tn_wrapper {
+    display: flex;
+    height: 50px;
+    width: 100%;
+    padding: 10px;
+    background: white;
+    border-bottom: 1px solid rgb(196, 196, 196);
+    justify-content: space-between;
+    .tn_info_wrapper {
+        display: flex;
+        height: 100%;
+        width: fit-content;
+        align-items: center;
+        justify-content: center;
+        .tn_title {
+            font-size: 14px;
+            color: rgba(250, 128, 114, 0.883);
+            // animation: effect 2s linear infinite;
+            // background : linear-gradient(140deg,red,green,yellow);
+        }
+        .tn_info {
+            display: flex;
+            height: 100%;
+            width: fit-content;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            .tn_bell_wrapper {
+                position: relative;
+                svg {
+                    font-size: 24px;
+                }
+                .tn_notification_label {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: absolute;
+                    top: -10px;
+                    right: -10px;
+                    background: red;
+                    border-radius: 50%;
+                    width: 20px;
+                    height: 20px;
+                    text-align: center;
+                    color: white;
+                    font-size: 10px;
+                    font-weight: bold;
+                    line-height: 20px;
+                    animation: animate-notification-label 0.2s linear forwards;
+                }
+            }
+        }
+        .tn_account_wrapper {
+            display: flex;
+            height: 100%;
+            width: fit-content;
+            align-items: center;
+            justify-content: center;
+            .tn_account_profile {
+                height: 40px;
+                width: 40px;
+                background: 
+                    linear-gradient(red, salmon) padding-box,
+                    linear-gradient(to right, darkblue, darkorchid) border-box;
+                border-radius: 50%;
+                border: 2px solid transparent;
+            }
+        }
+    }
+}
+@keyframes animate-notification-label {
+    0%
+    {
+        transform: scale(0);
+    }
+    100%
+    {
+        transform: scale(1);
+    }
+}
+@keyframes effect {
+    /* 0% {
+      background: linear-gradient(#008000, #00ff00);
+      -webkit-background-clip: text;
+    } */
+    0% {
+        filter: hue-rotate(360deg);
+        -webkit-background-clip: text;
+    }
+    100% {
+      -webkit-background-clip: text;
+    }
+}
