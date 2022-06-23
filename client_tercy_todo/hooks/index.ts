@@ -7,3 +7,5 @@ export { useAuth } from './useAuth/useAuth';
 export { useNotification } from './useNotification/useNotification';
 
 export { useHomePageTabs } from './useHomePageTabs/useHomePageTabs';
+
+export { useModal } from './useModal/useModal';
