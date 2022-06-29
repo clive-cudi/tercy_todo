@@ -16,6 +16,23 @@ const userSchema = new mongoose.Schema({
     uid: {
         type: String,
         required: true
+    },
+    profilePic: {
+        type: String,
+    },
+    about: {
+        type: String
+    },
+    tasks: {
+        complete: {
+            type: Array,
+        },
+        pending: {
+            type: Array
+        },
+        created: {
+            type: Array
+        }
     }
 });
 
