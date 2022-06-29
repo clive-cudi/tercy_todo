@@ -1,5 +1,6 @@
 import { LoginWidget, NextHead } from "../components";
 import styles from '../styles/login.module.css';
+import { getSession } from "next-auth/react";
 
 export default function Login(){
     return (
@@ -12,4 +13,22 @@ export default function Login(){
             </div>
         </div>
     )
+}
+
+Login.getInitialProps = async (ctx: {req: any, res: any})=>{
+    const {req, res} = ctx;
+    const session = getSession({req});
+
+    // redirect to home page if user is authenticated
+
+    if ((await session)?.user && res){
+        res.writeHead(302, {
+            Location: '/'
+        });
+
+        res.end();
+        return {};
+    }
+
+    return {};
 }

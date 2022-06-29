@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 5000;
 const cors = require('cors');
 const http = require('http');
-const server = http.createServer(app);
-require('dotenv').config();
-const MONGO_URI = process.env.MONGO_URI ?? `mongodb+srv://myadmin:add1234@cluster0.szi0m.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+// const server = http.createServer(app);
+const path = require('path');
+require('dotenv').config({path: path.resolve(__dirname, './.env')});
+const PORT = process.env.PORT;
+const MONGO_URI = process.env.MONGO_URI;
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 
@@ -24,7 +25,7 @@ app.get('/', (req, res)=> {
 app.use('/auth', authRoutes);
 
 
-server.listen(PORT, ()=>{
+app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`);
     console.log(MONGO_URI);
 })

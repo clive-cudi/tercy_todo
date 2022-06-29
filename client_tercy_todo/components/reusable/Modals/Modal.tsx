@@ -12,15 +12,17 @@ interface modalPropTypes {
 }
 
 export function Modal({data, styling, autoClose, outerClickClose}: modalPropTypes):JSX.Element {
-    const { modal } = useModal();
+    const { modal, closeModal } = useModal();
 
     // useEffect(()=>{
     //     if (modal) {}
     // }, [])
 
     return (
-        <div className={styles.modal_main_wrapper} style={{...styling}}>
-            <div className={styles.modal_content}>
+        <div className={styles.modal_main_wrapper} style={{...styling}} onClick={(e)=>{
+            closeModal()
+        }}>
+            <div className={`${styles.modal_content} ${modal.open == false ? styles.modal_out : ''}`} onClick={(e)=>{e.stopPropagation()}}>
                 {data}
             </div>
         </div>

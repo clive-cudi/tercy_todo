@@ -24,8 +24,9 @@ export default function Home() {
         <div className={styles.content_view}>
           <TopNav />
           <HomePageCurrentTab />
-          <Stars amount={4} />
+          {/* <Stars amount={4} /> */}
         </div>
+        <NavBar isPrimary={true} />
       </main>
     </div>
   )

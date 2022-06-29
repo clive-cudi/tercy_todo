@@ -3,6 +3,7 @@ import styles from "../../styles/components/reusable/topNav.module.scss";
 import { BiBell } from "react-icons/bi";
 import { useNotification } from "../../hooks";
 import { NotificationsCtxTypes } from "../../context";
+import { signOut } from "next-auth/react";
 
 export function TopNav(): JSX.Element {
     const { getNotificationsNumber, updateNotifications } = useNotification();
@@ -29,7 +30,9 @@ export function TopNav(): JSX.Element {
                     </span>
                 </div>
                 <div className={styles.tn_account_wrapper}>
-                    <div className={styles.tn_account_profile}>
+                    <div className={styles.tn_account_profile} onClick={()=>{
+                        signOut({callbackUrl: '/login'})
+                    }}>
 
                     </div>
                 </div>

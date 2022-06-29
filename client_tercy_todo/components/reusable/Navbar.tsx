@@ -11,6 +11,7 @@ import { useHomePageTabs } from "../../hooks";
 interface NavBarProps {
     starredTasks?: []
     urgentTasks?: []
+    isPrimary?: boolean
 }
 
 const iconStyles: React.CSSProperties = {
@@ -18,7 +19,7 @@ const iconStyles: React.CSSProperties = {
     fontSize: "20px"
 }
 
-export function NavBar({starredTasks, urgentTasks}: NavBarProps): JSX.Element {
+export function NavBar({starredTasks, urgentTasks, isPrimary}: NavBarProps): JSX.Element {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
     const { switchTab } = useHomePageTabs();
 
@@ -31,19 +32,21 @@ export function NavBar({starredTasks, urgentTasks}: NavBarProps): JSX.Element {
     }
 
     return (
-        <nav className={`${styles.nav} ${isCollapsed ? styles.nav_collapsed: ''}`}>
+        <nav className={`${styles.nav} ${isCollapsed ? styles.nav_collapsed: ''} ${isPrimary ? styles.primary_nav : '' }`}>
             <div className={styles.nav_wrapper}>
-                <div className={styles.nav_logo}>
-                    {isCollapsed == false && <h1 className={styles.nav_logo_title}>MY TODO</h1>}
-                    <span onClick={():void=>{toggleCollapse()}}>{isCollapsed ? <FaHamburger /> : <HiMenuAlt1 />}</span>
-                </div>
+                {isPrimary !== true &&
+                    <div className={styles.nav_logo}>
+                        {isCollapsed == false && <h1 className={styles.nav_logo_title}>MY TODO</h1>}
+                        <span onClick={():void=>{toggleCollapse()}}>{isCollapsed ? <FaHamburger /> : <HiMenuAlt1 />}</span>
+                    </div>
+                }
                 <ul>
                     <li><button onClick={():void=>{switchTab("home")}}><BsHouseDoor />{isCollapsed == false && <span>Home</span>}</button></li>
                     <li><button onClick={():void=>{switchTab("mytasks")}}><FiCheckCircle />{isCollapsed == false && <span>My Tasks</span>}</button></li>
                     <li><button onClick={():void=>{switchTab("inbox")}}><FiBell />{isCollapsed == false && <span>Inbox</span>}</button></li>   
                 </ul>
                 <span className={styles.nav_mini_title}>{isCollapsed == false ? <span className={styles.nav_mini_title_txt}>Starred Tasks</span> : ''}<AiFillStar /></span>
-                <ul>
+                <ul className={styles.nav_task_brief}>
                     {
                         starredTasks?.map((task)=>{
                             return (
@@ -53,7 +56,7 @@ export function NavBar({starredTasks, urgentTasks}: NavBarProps): JSX.Element {
                     }
                 </ul>
                 <span className={styles.nav_mini_title}>{isCollapsed == false ? <span className={styles.nav_mini_title_txt}>Urgent Tasks</span> : ''}<GoAlert /></span>
-                <ul>
+                <ul className={styles.nav_task_brief}>
                     {
                         urgentTasks?.map((task)=>{
                             return (
