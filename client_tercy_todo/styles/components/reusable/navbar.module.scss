@@ -129,8 +129,17 @@
     justify-content: flex-start;
     cursor: pointer;
     font-family: 'Ubuntu', sans-serif;
+    transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition-duration: 0.4s;
     span {
         animation: animate-btn-label 0.4s linear forwards;
+    }
+    &.nav_btn_active {
+        color: salmon;
+        &:hover {
+            background: none;
+            color: salmon;
+        }
     }
 }
 .nav_wrapper > ul > li > button > svg {

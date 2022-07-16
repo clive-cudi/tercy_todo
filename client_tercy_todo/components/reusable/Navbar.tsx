@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../styles/components/reusable/navbar.module.scss";
 import { BsHouseDoor, BsCheckCircle } from "react-icons/bs";
 import { FiCheckCircle, FiBell } from "react-icons/fi";
@@ -21,7 +21,7 @@ const iconStyles: React.CSSProperties = {
 
 export function NavBar({starredTasks, urgentTasks, isPrimary}: NavBarProps): JSX.Element {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-    const { switchTab } = useHomePageTabs();
+    const { switchTab, currentTab } = useHomePageTabs();
 
     function toggleCollapse(): void{
         if (isCollapsed == true){
@@ -30,6 +30,12 @@ export function NavBar({starredTasks, urgentTasks, isPrimary}: NavBarProps): JSX
             setIsCollapsed(true);
         }
     }
+
+    useEffect(()=>{
+        if (window.innerWidth < 700){
+            setIsCollapsed(true);
+        }
+    }, [])
 
     return (
         <nav className={`${styles.nav} ${isCollapsed ? styles.nav_collapsed: ''} ${isPrimary ? styles.primary_nav : '' }`}>
@@ -41,9 +47,9 @@ export function NavBar({starredTasks, urgentTasks, isPrimary}: NavBarProps): JSX
                     </div>
                 }
                 <ul>
-                    <li><button onClick={():void=>{switchTab("home")}}><BsHouseDoor />{isCollapsed == false && <span>Home</span>}</button></li>
-                    <li><button onClick={():void=>{switchTab("mytasks")}}><FiCheckCircle />{isCollapsed == false && <span>My Tasks</span>}</button></li>
-                    <li><button onClick={():void=>{switchTab("inbox")}}><FiBell />{isCollapsed == false && <span>Inbox</span>}</button></li>   
+                    <li><button onClick={():void=>{switchTab("home")}} className={currentTab.toLowerCase() == "home" ? styles.nav_btn_active : "_"}><BsHouseDoor />{isCollapsed == false && <span>Home</span>}</button></li>
+                    <li><button onClick={():void=>{switchTab("mytasks")}} className={currentTab.toLowerCase() == "mytasks" ? styles.nav_btn_active : "_"}><FiCheckCircle />{isCollapsed == false && <span>My Tasks</span>}</button></li>
+                    <li><button onClick={():void=>{switchTab("inbox")}} className={currentTab.toLowerCase() == "inbox" ? styles.nav_btn_active : "_"}><FiBell />{isCollapsed == false && <span>Inbox</span>}</button></li>   
                 </ul>
                 <span className={styles.nav_mini_title}>{isCollapsed == false ? <span className={styles.nav_mini_title_txt}>Starred Tasks</span> : ''}<AiFillStar /></span>
                 <ul className={styles.nav_task_brief}>

@@ -6,3 +6,4 @@ export * from './NextHead';
 export * from './auth/AuthGuard';
 export * from './reusable';
 export * from './views';
+export * from './forms';
