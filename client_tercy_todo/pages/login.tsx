@@ -1,8 +1,11 @@
-import { LoginWidget, NextHead } from "../components";
+import { LoginWidget, NextHead, Modal } from "../components";
 import styles from '../styles/login.module.css';
 import { getSession } from "next-auth/react";
+import { useModal } from "../hooks";
 
 export default function Login(){
+    const { modal } = useModal();
+
     return (
         <div className={styles.app}>
             <NextHead title={`Login page`} />
@@ -10,6 +13,7 @@ export default function Login(){
                 <div className={styles.login_wrapper}>
                     <LoginWidget />
                 </div>
+                {modal.open == true && <Modal data={modal.data} />}
             </div>
         </div>
     )

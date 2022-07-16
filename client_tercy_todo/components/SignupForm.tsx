@@ -63,7 +63,7 @@ export function SignupForm(){
                 console.log(res.data);
                 if (res.data.user_token.error.status == false){
                     // push to login
-                    openModal(<ErrorModal message={"Successful sign in"} />);
+                    openModal(<ErrorModal message={"Successful sign in"} btn_label={'Proceed to Login'} />);
                     router.push('/login');
                 } else {
                     openModal(<ErrorModal message={"An error occurred! Please try Again"} />)
