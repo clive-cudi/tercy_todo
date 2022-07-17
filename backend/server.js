@@ -9,6 +9,7 @@ const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
+const taskRoutes = require('./routes/tasks');
 
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
@@ -23,6 +24,7 @@ app.get('/', (req, res)=> {
 });
 
 app.use('/auth', authRoutes);
+app.use('/tasks', taskRoutes);
 
 
 app.listen(PORT, ()=>{
