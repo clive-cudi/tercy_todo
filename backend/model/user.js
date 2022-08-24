@@ -25,13 +25,46 @@ const userSchema = new mongoose.Schema({
     },
     tasks: {
         complete: {
-            type: Array,
+            type: [
+                {
+                    taskID: String,
+                    title: String,
+                    created: String,
+                    description: String,
+                    expiry: {
+                        date: String,
+                        time: String
+                    }
+                }
+            ],
         },
         pending: {
-            type: Array
+            type: [
+                {
+                    taskID: String,
+                    title: String,
+                    created: String,
+                    description: String,
+                    expiry: {
+                        date: String,
+                        time: String
+                    }
+                }
+            ]
         },
         created: {
-            type: Array
+            type: [
+                {
+                    taskID: String,
+                    title: String,
+                    created: String,
+                    description: String,
+                    expiry: {
+                        date: String,
+                        time: String
+                    }
+                }
+            ]
         }
     }
 });

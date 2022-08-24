@@ -112,5 +112,9 @@ router.post('/register', async (req, res) => {
 
 });
 
+router.post("/changepass", async (req, res) => {
+    res.status(200).send("change pass route");
+})
+
 
 module.exports = router;
