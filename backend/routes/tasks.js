@@ -29,6 +29,67 @@ router.post('/addtask',auth_verify, (req, res) =>{
     //     console.log(err)
     // })l
 
+    // verify the task data
+    if(!task_data.title || !task_data.description || !task_data.expiry.date || !task_data.expiry.time){
+        return res.status(400).json({message: "Task data is incomplete", user_token: {...req.body.user_token}, error: {status: true, code: 'task_data_incomplete'}});
+    }
+
+
+    // function that returns the nextDay of the given date while taking note of the month and year
+
+    function nextDay(date, month, year){
+        let nextDay = new Date();
+
+        // check if the year is a leap year; if yes, then check if the month is february and if the date is greater than 28
+
+        if(year % 4 === 0 && month === 2 && date === 29){
+            if(year % 100 === 0){
+                if(year % 400 === 0){
+                    console.log('leap year also');
+                    nextDay.setDate(nextDay.getFullYear() + "-" + (nextDay.getMonth() + 1) + "-" + 1);
+
+                    return nextDay;
+                }
+            }else{
+                console.log("leap year");
+                nextDay.setDate(nextDay.getFullYear() + "-" + (nextDay.getMonth() + 1) + "-" + 1);
+
+                return nextDay;
+            }
+        }
+
+        // check if the month has ended and if the date is greater than the number of days in the month
+
+        const daysInMonth = new Date(year, month, 0).getDate();
+
+        if(date > daysInMonth){
+            console.log("month has ended");
+            nextDay.setDate(nextDay.getFullYear() + "-" + (nextDay.getMonth() + 1) + "-" + 1);
+
+            return nextDay;
+        }
+        
+        nextDay.setDate(nextDay.getFullYear() + "-" + nextDay.getMonth() + "-" + (nextDay.getDate() + 1));
+
+        console.log(nextDay.getFullYear() + "-" + nextDay.getMonth() + "-" + (nextDay.getDate() + 1))
+
+        return nextDay;
+    }
+
+
+    // set expiry times to a default value if not provided i.e after 1 day
+
+    if(!task_data.expiry.date || !task_data.expiry.time){
+        // add 1 day to the expiry date
+        task_data.expiry.date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate());
+        task_data.expiry.time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        
+
+        // console.log(new Date(`${task_data.expiry.date}T${task_data.expiry.time}`));
+
+        // console.log('1995-12-17T03:24:00')
+    }
+
     const newTask = {
         taskID: v4ID(),
         title: task_data.title,
@@ -52,3 +113,13 @@ router.post('/addtask',auth_verify, (req, res) =>{
 })
 
 module.exports = router;
+
+
+// return res.json({message: 'Invalid credentials', user_token: {
+//     user: null,
+//     token: null,
+//     error: {
+//         status: true,
+//         code: 'invalid_credentials',
+//     }
+// }});

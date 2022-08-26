@@ -2,8 +2,6 @@ import NextAuth from "next-auth/next";
 import { EmailProvider, CredentialsProvider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import axios from "axios";
-import { type } from "os";
-import { useAuth } from '../../../hooks';
 
 
 // user {
@@ -81,9 +79,6 @@ export default NextAuth({
     },
     session: async ({ session, token, user }) => {
       session = {...session, user: {...user, token: token}};
-      const auth = useAuth();
-
-      console.log(auth);
 
       return session;
     },

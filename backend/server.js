@@ -6,7 +6,7 @@ const http = require('http');
 const path = require('path');
 require('dotenv').config({path: path.resolve(__dirname, './.env')});
 const PORT = process.env.PORT;
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = process.env.NODE_ENV === "production" ? process.env.MONGO_URI : process.env.MONGO_URI_DEV;
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
