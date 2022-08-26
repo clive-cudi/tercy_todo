@@ -6,8 +6,6 @@ const { v4: v4ID} = require("uuid");
 router.get('/', (req, res)=>{res.send('Tasks route')});
 
 router.get('/getalltasks', auth_verify, (req, res)=> {
-    const { user_id } = req.body.user_token;
-    // console.log(req);
 
     User.findOne({user_id}).then(async(user)=>{
         console.log(user);
@@ -22,15 +20,9 @@ router.post('/addtask',auth_verify, (req, res) =>{
     const { task_data } = req.body;
     const date = new Date();
 
-    // User.findOne({user_id}).then((user)=>{
-    //     console.log(user);
-    //     return res.json({message: "Target user tasks found", user_token: {email: user.email, userName: user.userName, uid: user.uid}, res_data: {tasks: user?.tasks}})
-    // }).catch((err)=>{
-    //     console.log(err)
-    // })l
 
     // verify the task data
-    if(!task_data.title || !task_data.description || !task_data.expiry.date || !task_data.expiry.time){
+    if(!task_data.title || !task_data.description || !task_data.expiry.date){
         return res.status(400).json({message: "Task data is incomplete", user_token: {...req.body.user_token}, error: {status: true, code: 'task_data_incomplete'}});
     }
 
@@ -83,11 +75,7 @@ router.post('/addtask',auth_verify, (req, res) =>{
         // add 1 day to the expiry date
         task_data.expiry.date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate());
         task_data.expiry.time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-        
-
-        // console.log(new Date(`${task_data.expiry.date}T${task_data.expiry.time}`));
-
-        // console.log('1995-12-17T03:24:00')
+    
     }
 
     const newTask = {
@@ -97,29 +85,23 @@ router.post('/addtask',auth_verify, (req, res) =>{
         description: task_data.description,
         expiry: {
             date: task_data.expiry.date,
-            time: task_data.expiry.time
+            time: task_data.expiry.time ? task_data.expiry.time : date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
         }
     }
 
     console.log(`Creating New Task: \n${JSON.stringify(newTask)}`);
 
-    // User.updateOne({user_id: user_id}, {
-    //     $push: {
-    //         tasks: newTask
-    //     }
-    // })
+    User.updateOne({uid: user_id}, {
+        $push: {
+            "tasks.complete": newTask
+        }
+    }).then(()=> {
+        return res.json({message: "Task created", user_token: {...req.body.user_token}, res_data: {task: newTask}, error: {status: false, code: null}});
+    }).catch((err)=> {
+        console.log(err);
+        return res.status(500).json({message: "Task creation failed", user_token: {...req.body.user_token}, res_data: null, error: {status: true, code: 'task_creation_failed'}});
+    })
 
-    res.status(200).send({status: "success", taskData: {...newTask}})
 })
 
 module.exports = router;
-
-
-// return res.json({message: 'Invalid credentials', user_token: {
-//     user: null,
-//     token: null,
-//     error: {
-//         status: true,
-//         code: 'invalid_credentials',
-//     }
-// }});

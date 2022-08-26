@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema({
                     }
                 }
             ],
+            required: true
         },
         pending: {
             type: [
@@ -50,7 +51,8 @@ const userSchema = new mongoose.Schema({
                         time: String
                     }
                 }
-            ]
+            ],
+            required: true
         },
         created: {
             type: [
@@ -64,7 +66,8 @@ const userSchema = new mongoose.Schema({
                         time: String
                     }
                 }
-            ]
+            ],
+            required: true
         }
     }
 });

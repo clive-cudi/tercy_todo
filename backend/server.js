@@ -4,7 +4,7 @@ const cors = require('cors');
 const http = require('http');
 // const server = http.createServer(app);
 const path = require('path');
-require('dotenv').config({path: path.resolve(__dirname, './.env')});
+require('dotenv').config({path: path.resolve(__dirname, './.env.local')});
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.NODE_ENV === "production" ? process.env.MONGO_URI : process.env.MONGO_URI_DEV;
 const mongoose = require('mongoose');
