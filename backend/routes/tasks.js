@@ -6,6 +6,7 @@ const { v4: v4ID} = require("uuid");
 router.get('/', (req, res)=>{res.send('Tasks route')});
 
 router.get('/getalltasks', auth_verify, (req, res)=> {
+    const { user_id } = req.body.user_token;
 
     User.findOne({user_id}).then(async(user)=>{
         console.log(user);
@@ -19,6 +20,7 @@ router.post('/addtask',auth_verify, (req, res) =>{
     const { user_id } = req.body.user_token;
     const { task_data } = req.body;
     const date = new Date();
+
 
 
     // verify the task data
