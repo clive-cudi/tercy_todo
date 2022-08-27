@@ -36,13 +36,11 @@ router.post("/addtask", auth_verify, (req, res) => {
 
   // verify the task data
   if (!task_data.title || !task_data.description) {
-    return res
-      .status(400)
-      .json({
-        message: "Task data is incomplete",
-        user_token: { ...req.body.user_token },
-        error: { status: true, code: "task_data_incomplete" },
-      });
+    return res.status(400).json({
+      message: "Task data is incomplete",
+      user_token: { ...req.body.user_token },
+      error: { status: true, code: "task_data_incomplete" },
+    });
   }
 
   // function that returns the nextDay of the given date while taking note of the month and year
@@ -157,13 +155,11 @@ router.post("/addtask", auth_verify, (req, res) => {
         if (taskIdExists || taskTitleExists) {
           return {
             code: 400,
-            resString: res
-              .status(400)
-              .json({
-                message: "Task already exists",
-                user_token: { ...req.body.user_token },
-                error: { status: true, code: "task_already_exists" },
-              }),
+            resString: res.status(400).json({
+              message: "Task already exists",
+              user_token: { ...req.body.user_token },
+              error: { status: true, code: "task_already_exists" },
+            }),
           };
         }
 
@@ -174,13 +170,11 @@ router.post("/addtask", auth_verify, (req, res) => {
       } else {
         return {
           code: 400,
-          resString: res
-            .status(400)
-            .json({
-              message: "User not found",
-              user_token: { ...req.body.user_token },
-              error: { status: true, code: "user_not_found" },
-            }),
+          resString: res.status(400).json({
+            message: "User not found",
+            user_token: { ...req.body.user_token },
+            error: { status: true, code: "user_not_found" },
+          }),
         };
       }
     })
@@ -208,27 +202,23 @@ router.post("/addtask", auth_verify, (req, res) => {
           })
           .catch((err) => {
             console.log(err);
-            return res
-              .status(500)
-              .json({
-                message: "Task creation failed",
-                user_token: { ...req.body.user_token },
-                res_data: null,
-                error: { status: true, code: "task_creation_failed" },
-              });
+            return res.status(500).json({
+              message: "Task creation failed",
+              user_token: { ...req.body.user_token },
+              res_data: null,
+              error: { status: true, code: "task_creation_failed" },
+            });
           });
       }
     })
     .catch((err) => {
       console.log(err);
-      return res
-        .status(500)
-        .json({
-          message: "Task creation failed",
-          user_token: { ...req.body.user_token },
-          res_data: null,
-          error: { status: true, code: "task_creation_failed" },
-        });
+      return res.status(500).json({
+        message: "Task creation failed",
+        user_token: { ...req.body.user_token },
+        res_data: null,
+        error: { status: true, code: "task_creation_failed" },
+      });
     });
 });
 
