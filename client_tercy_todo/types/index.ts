@@ -1,1 +1,1 @@
-export type { loginDataTypes } from './auth';
+export type { loginDataTypes } from "./auth";
