@@ -108,6 +108,9 @@ router.post('/addtask',auth_verify, (req, res) =>{
             const { taskID, title } = newTask;
             const taskIdExists = tasks.created.find(task => task.taskID === taskID);
             const taskTitleExists = tasks.created.find(task => task.title.trim().toLowerCase() === title.trim().toLowerCase());
+
+            console.log(title);
+            console.log(tasks.created.map(task => task.title.trim().toLowerCase()));
             
             if(taskIdExists || taskTitleExists){
                 return {
@@ -116,21 +119,21 @@ router.post('/addtask',auth_verify, (req, res) =>{
                 }
             }
 
+            return {
+                code: 200,
+                resString: null
+            };
+
         } else {
             return {
                 code: 400,
                 resString: res.status(400).json({message: "User not found", user_token: {...req.body.user_token}, error: {status: true, code: 'user_not_found'}})
             }
         }
-
-        return {
-            code: 200,
-            resString: null
-        }
     }).then((res_)=> {
         console.log(res_.code)
         if (res_.code === 400){
-            console.log(res_.resString);
+            // console.log(res_.resString);
             return res_.resString;
         } else {
             User.updateOne({uid: user_id}, {

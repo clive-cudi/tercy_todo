@@ -8,7 +8,7 @@
     "server": "node ./backend/server.js",
     "server-dev": "nodemon ./backend/server.js",
     "client": "cd ./client_tercy_todo && npm run dev",
-    "dev": "concurrently \"echo 'starting backend'\" \"npm run server\" \"echo 'starting client'\" \"npm run client\""
+    "dev": "concurrently \"echo 'starting backend'\" \"npm run server-dev\" \"echo 'starting client'\" \"npm run client\""
   },
   "keywords": [],
   "author": "",

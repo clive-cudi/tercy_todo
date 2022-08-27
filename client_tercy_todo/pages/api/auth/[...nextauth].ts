@@ -1,5 +1,4 @@
 import NextAuth from "next-auth/next";
-import { EmailProvider, CredentialsProvider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import axios from "axios";
 
@@ -72,7 +71,7 @@ export default NextAuth({
   callbacks: {
     jwt: async ({ token, user, account, profile }) => {
       if (user?.user_token) {
-        token = {...token, tercy_token: user.user_token.token, authUser: {email: user.user_token.user?.email ?? "", uid: user.user_token.user?.uid ?? "", userName: user.user_token.user?.userName ??"", password: user.user_token.user?.password ?? ""}, id: "", user_token: {...user?.user_token}}
+        token = {...token, tercy_token: user.user_token.token as string, authUser: {email: user.user_token.user?.email ?? "", uid: user.user_token.user?.uid ?? "", userName: user.user_token.user?.userName ??"", password: user.user_token.user?.password ?? ""}, id: "", user_token: {...user?.user_token}}
         user = {...user, authUser: {email: user.user_token.user?.email ?? "", uid: user.user_token.user?.uid ?? "", userName: user.user_token.user?.userName ??"", password: user.user_token.user?.password ?? ""}, id: "", user_token: {...user?.user_token}}
       }
       return token;

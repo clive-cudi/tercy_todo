@@ -1,12 +1,14 @@
 import NextAuth from "next-auth";
-import type { BuiltInProviderType ,RedirectableProviderType } from "next-auth/providers";
-import type { ClientSafeProvider, LiteralUnion, SessionProviderProps, SignInAuthorisationParams, SignInOptions, SignInResponse, SignOutParams, SignOutResponse, UseSessionOptions } from 'next-auth/react';
+import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
   interface Session {
     user: User;
   }
   interface User {
+    token?: {
+      tercy_token: string;
+    }
     authUser: {
       email: string | null;
       userName: string | null;
@@ -35,4 +37,11 @@ declare module "next-auth" {
 //     authorizationParams?: SignInAuthorisationParams
 //   ): Promise<SignInResponse
 // >;
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    // signIn(user: User): Promise<SignInResponse>;
+    tercy_token: string;
+  }
 }
