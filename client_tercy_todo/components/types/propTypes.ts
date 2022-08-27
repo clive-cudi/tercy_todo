@@ -1,7 +1,7 @@
 export interface starProps {
-    amount: number
+  amount: number;
 }
 
 export interface stateTypes {
-    clickedIndex: number
+  clickedIndex: number;
 }

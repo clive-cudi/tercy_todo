@@ -8,7 +8,7 @@ declare module "next-auth" {
   interface User {
     token?: {
       tercy_token: string;
-    }
+    };
     authUser: {
       email: string | null;
       userName: string | null;
@@ -31,12 +31,12 @@ declare module "next-auth" {
     } | null;
   }
 
-//   declare function signIn<P extends RedirectableProviderType | undefined = undefined>(
-//     provider?: LiteralUnion<BuiltInProviderType>,
-//     options?: SignInOptions,
-//     authorizationParams?: SignInAuthorisationParams
-//   ): Promise<SignInResponse
-// >;
+  //   declare function signIn<P extends RedirectableProviderType | undefined = undefined>(
+  //     provider?: LiteralUnion<BuiltInProviderType>,
+  //     options?: SignInOptions,
+  //     authorizationParams?: SignInAuthorisationParams
+  //   ): Promise<SignInResponse
+  // >;
 }
 
 declare module "next-auth/jwt" {

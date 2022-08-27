@@ -1,8 +1,7 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css';
-import Stars from '../components/Stars';
-
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import Stars from "../components/Stars";
 
 export default function Home() {
   return (
@@ -19,11 +18,11 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          {' '}
+          {" "}
           <code className={styles.code}>{`<Under_Construction />`}</code>
         </p>
         <Stars amount={6} />
-        </main>
+      </main>
     </div>
-  )
+  );
 }

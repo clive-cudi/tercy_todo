@@ -1,11 +1,11 @@
-export { useStickyState } from './useStickyState/useStickyState';
+export { useStickyState } from "./useStickyState/useStickyState";
 
-export { useHasMounted } from './useHasMounted/useHasMounted';
+export { useHasMounted } from "./useHasMounted/useHasMounted";
 
-export { useAuth } from './useAuth/useAuth';
+export { useAuth } from "./useAuth/useAuth";
 
-export { useNotification } from './useNotification/useNotification';
+export { useNotification } from "./useNotification/useNotification";
 
-export { useHomePageTabs } from './useHomePageTabs/useHomePageTabs';
+export { useHomePageTabs } from "./useHomePageTabs/useHomePageTabs";
 
-export { useModal } from './useModal/useModal';
+export { useModal } from "./useModal/useModal";
