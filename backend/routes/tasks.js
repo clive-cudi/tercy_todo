@@ -2,6 +2,7 @@ const router = require('express').Router();
 const User = require('../model/user');
 const auth_verify = require("../middleware/auth_verify");
 const { v4: v4ID} = require("uuid");
+const moment = require("moment");
 
 router.get('/', (req, res)=>{res.send('Tasks route')});
 
@@ -24,7 +25,7 @@ router.post('/addtask',auth_verify, (req, res) =>{
 
 
     // verify the task data
-    if(!task_data.title || !task_data.description || !task_data.expiry.date){
+    if(!task_data.title || !task_data.description){
         return res.status(400).json({message: "Task data is incomplete", user_token: {...req.body.user_token}, error: {status: true, code: 'task_data_incomplete'}});
     }
 
@@ -75,15 +76,21 @@ router.post('/addtask',auth_verify, (req, res) =>{
 
     if(!task_data.expiry.date || !task_data.expiry.time){
         // add 1 day to the expiry date
-        task_data.expiry.date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate());
-        task_data.expiry.time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        // task_data.expiry.date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate());
+        // task_data.expiry.time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+        task_data.expiry.date = moment().add(1, 'days').format('YYYY-MM-DD');
+        task_data.expiry.time = moment().hour() + ":" + moment().minute() + ":" + moment().second();
+
+        // console.log(task_data.expiry.date + " " + task_data.expiry.time);
     
     }
 
     const newTask = {
         taskID: v4ID(),
         title: task_data.title,
-        created: Date.now(),
+        // title: "",
+        created: moment().format('YYYY-MM-DD HH:mm:ss'),
         description: task_data.description,
         expiry: {
             date: task_data.expiry.date,
@@ -93,17 +100,57 @@ router.post('/addtask',auth_verify, (req, res) =>{
 
     console.log(`Creating New Task: \n${JSON.stringify(newTask)}`);
 
-    User.updateOne({uid: user_id}, {
-        $push: {
-            "tasks.complete": newTask
+    // prevent multiple similar tasks from being created
+
+    User.findOne({user_id}).then(async(user)=>{
+        if(user){
+            const { tasks } = user;
+            const { taskID, title } = newTask;
+            const taskIdExists = tasks.created.find(task => task.taskID === taskID);
+            const taskTitleExists = tasks.created.find(task => task.title.trim().toLowerCase() === title.trim().toLowerCase());
+            
+            if(taskIdExists || taskTitleExists){
+                return {
+                    code: 400,
+                    resString: res.status(400).json({message: "Task already exists", user_token: {...req.body.user_token}, error: {status: true, code: 'task_already_exists'}})
+                }
+            }
+
+        } else {
+            return {
+                code: 400,
+                resString: res.status(400).json({message: "User not found", user_token: {...req.body.user_token}, error: {status: true, code: 'user_not_found'}})
+            }
         }
-    }).then(()=> {
-        return res.json({message: "Task created", user_token: {...req.body.user_token}, res_data: {task: newTask}, error: {status: false, code: null}});
+
+        return {
+            code: 200,
+            resString: null
+        }
+    }).then((res_)=> {
+        console.log(res_.code)
+        if (res_.code === 400){
+            console.log(res_.resString);
+            return res_.resString;
+        } else {
+            User.updateOne({uid: user_id}, {
+                $push: {
+                    "tasks.created": newTask
+                }
+            }).then(()=> {
+                return res.json({message: "Task created", user_token: {...req.body.user_token}, res_data: {task: newTask}, error: {status: false, code: null}});
+            }).catch((err)=> {
+                console.log(err);
+                return res.status(500).json({message: "Task creation failed", user_token: {...req.body.user_token}, res_data: null, error: {status: true, code: 'task_creation_failed'}});
+            });
+        }
+
     }).catch((err)=> {
         console.log(err);
         return res.status(500).json({message: "Task creation failed", user_token: {...req.body.user_token}, res_data: null, error: {status: true, code: 'task_creation_failed'}});
-    })
+    });
 
-})
+
+});
 
 module.exports = router;
