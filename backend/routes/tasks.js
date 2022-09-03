@@ -140,15 +140,15 @@ router.post("/addtask", auth_verify, (req, res) => {
         const { tasks } = user;
         const { taskID, title } = newTask;
         // console.log(tasks.created[0]);
-        const taskIdExists = tasks.created.find(
-          (task) => {return task.taskID === taskID}
-        );
-        const taskTitleExists = tasks.created.find(
-          (task) => {
-            console.log(task.title.trim().toLowerCase() === title.trim().toLowerCase());
-            return task.title.trim().toLowerCase() === title.trim().toLowerCase();
-          }
-        );
+        const taskIdExists = tasks.created.find((task) => {
+          return task.taskID === taskID;
+        });
+        const taskTitleExists = tasks.created.find((task) => {
+          console.log(
+            task.title.trim().toLowerCase() === title.trim().toLowerCase()
+          );
+          return task.title.trim().toLowerCase() === title.trim().toLowerCase();
+        });
 
         console.log(title);
         console.log(
@@ -158,7 +158,7 @@ router.post("/addtask", auth_verify, (req, res) => {
         console.log(`
           taskIdExists: ${taskIdExists},
           taskTitleExists: ${taskTitleExists}
-        `)
+        `);
 
         if (taskIdExists || taskTitleExists) {
           return {
