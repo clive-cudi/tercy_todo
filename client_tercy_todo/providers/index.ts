@@ -3,3 +3,4 @@ export { NotificationsCtxProvider } from "./NotificationsCtxProvider/Notificatio
 export * from "./Tabs";
 
 export { ModalCtxProvider } from "./ModalCtxProvider/ModalCtxProvider";
+export { LoadingCtxProvider } from "./LoadingCtxProvider/LoadingCtxProvider";

@@ -5,17 +5,20 @@ import {
   NotificationsCtxProvider,
   HomePageTabCtxProvider,
   ModalCtxProvider,
+  LoadingCtxProvider,
 } from "../providers";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <ModalCtxProvider>
-        <NotificationsCtxProvider>
-          <HomePageTabCtxProvider>
-            <Component {...pageProps} />
-          </HomePageTabCtxProvider>
-        </NotificationsCtxProvider>
+        <LoadingCtxProvider>
+          <NotificationsCtxProvider>
+            <HomePageTabCtxProvider>
+              <Component {...pageProps} />
+            </HomePageTabCtxProvider>
+          </NotificationsCtxProvider>
+        </LoadingCtxProvider>
       </ModalCtxProvider>
     </SessionProvider>
   );

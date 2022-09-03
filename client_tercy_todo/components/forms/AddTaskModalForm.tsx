@@ -20,12 +20,6 @@ export const AddTaskModalForm = (): JSX.Element=>{
             }).catch(err => {
                 console.log(err);
             })
-            // .finally(() => {
-            //     setTitle("");
-            //     setDescription("");
-            //     setDueDate("");
-            // }
-            // )
     }
 
     return (

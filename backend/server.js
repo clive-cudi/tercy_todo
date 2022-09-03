@@ -33,5 +33,5 @@ app.use("/tasks", taskRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log(MONGO_URI);
+  // console.log(MONGO_URI);
 });

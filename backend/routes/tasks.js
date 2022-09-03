@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 router.get("/getalltasks", auth_verify, (req, res) => {
   const { user_id } = req.body.user_token;
 
-  User.findOne({ user_id })
+  User.findOne({ uid: user_id })
     .then(async (user) => {
       console.log(user);
       return res.json({
@@ -134,23 +134,31 @@ router.post("/addtask", auth_verify, (req, res) => {
 
   // prevent multiple similar tasks from being created
 
-  User.findOne({ user_id })
+  User.findOne({ uid: user_id })
     .then(async (user) => {
       if (user) {
         const { tasks } = user;
         const { taskID, title } = newTask;
+        // console.log(tasks.created[0]);
         const taskIdExists = tasks.created.find(
-          (task) => task.taskID === taskID
+          (task) => {return task.taskID === taskID}
         );
         const taskTitleExists = tasks.created.find(
-          (task) =>
-            task.title.trim().toLowerCase() === title.trim().toLowerCase()
+          (task) => {
+            console.log(task.title.trim().toLowerCase() === title.trim().toLowerCase());
+            return task.title.trim().toLowerCase() === title.trim().toLowerCase();
+          }
         );
 
         console.log(title);
         console.log(
           tasks.created.map((task) => task.title.trim().toLowerCase())
         );
+
+        console.log(`
+          taskIdExists: ${taskIdExists},
+          taskTitleExists: ${taskTitleExists}
+        `)
 
         if (taskIdExists || taskTitleExists) {
           return {

@@ -10,10 +10,10 @@ export default function Home() {
   const session = useSession();
   const { modal } = useModal();
 
-  useEffect(()=>{
-    // console.log(auth)
-    console.log(session);
-  }, [session])
+  // useEffect(()=>{
+  //   // console.log(auth)
+  //   console.log(session);
+  // }, [session])
 
   return (
     <div className={styles.app}>
