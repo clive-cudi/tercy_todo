@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css';
 import { useModal } from '../hooks';
 import { useSession } from 'next-auth/react';
 import { NavBar, NextHead, TopNav, HomePageCurrentTab, Modal } from '../components';
+import { getSession } from 'next-auth/react';
 
 export default function Home() {
   // const auth = useAuth();
@@ -29,4 +30,25 @@ export default function Home() {
       </main>
     </div>
   )
+}
+
+Home.getInitialProps = async (ctx: {req: any, res: any}) => {
+  const {req, res} = ctx;
+  const session = getSession({req});
+
+  if (!(await session)?.user && res) {
+    res.writeHead(302, {
+      Location: '/login'
+    });
+
+    res.end();
+
+    return {
+      authSession: session
+    };
+  }
+
+  return {
+    authSession: session
+  }
 }

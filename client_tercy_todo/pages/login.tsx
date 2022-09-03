@@ -31,8 +31,12 @@ Login.getInitialProps = async (ctx: {req: any, res: any})=>{
         });
 
         res.end();
-        return {};
+        return {
+            authSession: session
+        };
     }
 
-    return {};
+    return {
+      authSession: session
+    };
 }
