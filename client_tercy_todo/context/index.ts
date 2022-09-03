@@ -16,4 +16,7 @@ export type {
   notificationCtx_Props,
 } from "./NotificationsCtx/NotificationsCtx";
 export type { ModalCtxTypes, modalCtx_Props } from "./ModalCtx/ModalCtx";
-export type { loadingCtxTypes, loadingCtx_Props} from "./LoadingCtx/LoadingCtx";
+export type {
+  loadingCtxTypes,
+  loadingCtx_Props,
+} from "./LoadingCtx/LoadingCtx";
