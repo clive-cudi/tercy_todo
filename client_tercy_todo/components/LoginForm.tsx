@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import type { loginDataTypes } from '../types';
-import { useStickyState, useModal } from '../hooks';
+import { useStickyState, useModal, useLoading } from '../hooks';
 import { useRouter } from 'next/router';
 import { ErrorModal } from '../components';
 
@@ -29,6 +29,7 @@ export function LoginForm(): JSX.Element{
     const [user, setUser] = useStickyState(userTemplate, 'tercy_todo_user');
     const router = useRouter();
     const { openModal } = useModal();
+    const { toggleLoading } = useLoading();
 
     function submitLogin(){
         if (email && password){
@@ -36,12 +37,13 @@ export function LoginForm(): JSX.Element{
             //     email,
             //     password
             // })
-
+            toggleLoading(true);
             signIn('credentials_email', {
                 email,
                 password,
                 redirect: false
             }).then((res)=> {
+                toggleLoading(false);
                 if (res?.error !== null){
                     const resError = JSON.parse(res?.error);
                     console.log(resError);
@@ -51,6 +53,7 @@ export function LoginForm(): JSX.Element{
                     router.push('/');
                 }
             }).catch((err)=> {
+                toggleLoading(false);
                 console.log(err);
                 openModal(<ErrorModal message={err?.message ?? 'An Error occurred during login attempt. Please Try Again!'} />);
             })

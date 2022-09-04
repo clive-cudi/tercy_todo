@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { ErrorModal } from "../components";
-import { useModal } from "../hooks";
+import { useModal, useLoading } from "../hooks";
 import { useRouter } from "next/router";
 
 interface registerAPIresponseType {
@@ -28,6 +28,7 @@ export function SignupForm(){
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const { openModal } = useModal();
     const router = useRouter();
+    const { toggleLoading } = useLoading();
 
     function checkCredentials(): boolean{
         if (email !== ""){
@@ -55,11 +56,13 @@ export function SignupForm(){
 
     function submitRegister(): void{
         if (checkCredentials()){
+            toggleLoading();
             axios.post('http://localhost:5000/auth/register', {
                 email,
                 userName,
                 password
             }).then((res: AxiosResponse<registerAPIresponseType, any>)=>{
+                toggleLoading(false);
                 console.log(res.data);
                 if (res.data.user_token.error.status == false){
                     // push to login
@@ -69,10 +72,13 @@ export function SignupForm(){
                     openModal(<ErrorModal message={"An error occurred! Please try Again"} />)
                 }
             }).catch((err)=>{
+                toggleLoading(false);
                 const error: registerAPIresponseType = err.response?.data;
                 console.log(error.message);
                 openModal(<ErrorModal message={error.message} />);
             })
+        } else {
+            openModal(<ErrorModal message={'Please Enter All Credentials'} />);
         }
     }
 

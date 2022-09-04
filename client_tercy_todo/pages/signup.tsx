@@ -1,15 +1,17 @@
-import { SignupWidget } from "../components";
+import { SignupWidget, Spinner } from "../components";
 import styles from '../styles/login.module.css';
 import { NextHead, Modal } from "../components";
-import { useModal } from "../hooks";
+import { useModal, useLoading } from "../hooks";
 import { getSession } from "next-auth/react";
 
 export default function Signup(){
     const { modal } = useModal();
+    const { isLoading } = useLoading();
 
     return (
         <div className={styles.app}>
             <NextHead title={`Sign up Page`} />
+            { isLoading.status == true && <Spinner /> }
             <div className={styles.content}>
                 <div className={styles.login_wrapper}>
                     <SignupWidget />
