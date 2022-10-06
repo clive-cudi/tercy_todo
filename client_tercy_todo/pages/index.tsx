@@ -27,7 +27,7 @@ export default function Home() {
           <HomePageCurrentTab />
           {/* <Stars amount={4} /> */}
         </div>
-        <NavBar isPrimary={true} />
+        <NavBar isPrimary />
         {modal.open == true && <Modal data={modal.data} />}
       </main>
     </div>
